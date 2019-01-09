@@ -7,11 +7,15 @@ import (
 	"github.com/micro/go-micro/selector"
 )
 
+type CustomStrategy interface {
+	Select(services []*registry.Service) selector.Next
+}
+
 type roundRobin struct {
 	tick int64
 }
 
-func NewRoundRobin() *roundRobin {
+func NewRoundRobin() CustomStrategy {
 	return &roundRobin{}
 }
 

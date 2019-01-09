@@ -60,7 +60,7 @@ func (r *rmqChannel) DeclareExchange(exchange string, durable bool) error {
 	return r.channel.ExchangeDeclare(
 		exchange, // name
 		"topic",  // kind
-		durable,    // durable
+		durable,  // durable
 		false,    // autoDelete
 		false,    // internal
 		false,    // noWait
@@ -70,12 +70,12 @@ func (r *rmqChannel) DeclareExchange(exchange string, durable bool) error {
 
 func (r *rmqChannel) DeclareQueue(queue string, durable bool) error {
 	_, err := r.channel.QueueDeclare(
-		queue, // name
-		durable, // durable
-		!durable,  // autoDelete
-		false, // exclusive
-		false, // noWait
-		nil,   // args
+		queue,    // name
+		durable,  // durable
+		!durable, // autoDelete
+		false,    // exclusive
+		false,    // noWait
+		nil,      // args
 	)
 	return err
 }

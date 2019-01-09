@@ -6,7 +6,6 @@ import (
 	"errors"
 
 	"github.com/micro/go-micro/broker"
-	"github.com/micro/go-micro/cmd"
 	"github.com/streadway/amqp"
 )
 
@@ -28,9 +27,9 @@ type publication struct {
 	t string
 }
 
-func init() {
-	cmd.DefaultBrokers["rabbitmq"] = NewBroker
-}
+// func init() {
+// 	cmd.DefaultBrokers["rabbitmq"] = NewBroker
+// }
 
 func (p *publication) Ack() error {
 	return p.d.Ack(false)
@@ -126,7 +125,7 @@ func (r *rmqBroker) Subscribe(topic string, handler broker.Handler, opts ...brok
 		}
 		err := handler(&publication{d: msg, m: m, t: msg.RoutingKey})
 		if err != nil && !opt.AutoAck {
-			msg.Nack(false, true)
+			msg.Nack(false, true) // nolint: errcheck
 		}
 	}
 
@@ -199,7 +198,7 @@ func (r *rmqBroker) getExchange() rmqExchange {
 	durable, _ = r.opts.Context.Value(durableExchangeKey{}).(bool)
 	name, _ = r.opts.Context.Value(exchangeNameKey{}).(string)
 	return rmqExchange{
-		Name: name,
+		Name:    name,
 		Durable: durable,
 	}
 }

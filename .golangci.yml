@@ -1,0 +1,28 @@
+# options for analysis running
+run:
+  concurrency: 4
+  deadline: 2m
+  issues-exit-code: 1
+  tests: true
+
+output:
+  format: colored-line-number
+  print-issued-lines: false
+  print-linter-name: true
+
+linters:
+  enable-all: true
+  disable:
+    - interfacer
+    - maligned
+    - gochecknoglobals # temporary disabled
+    - gosec # temporary disabled
+    - prealloc # temporary disabled
+
+linters-settings:
+  dupl:
+    # tokens count to trigger issue, 150 by default
+    threshold: 200
+  lll:
+    # max line length, lines longer will be reported. Default is 120. '\t' is counted as 1 character.
+    line-length: 170

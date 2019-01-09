@@ -17,12 +17,12 @@ func TestNewRabbitMQConnURL(t *testing.T) {
 		{"Multiple URLs", []string{"amqp://example.com/one", "amqp://example.com/two"}, "amqp://example.com/one"},
 		{"Insecure URL", []string{"amqp://example.com"}, "amqp://example.com"},
 		{"Secure URL", []string{"amqps://example.com"}, "amqps://example.com"},
-		{"Invalid URL", []string{"http://example.com"}, DefaultRabbitURL},
-		{"No URLs", []string{}, DefaultRabbitURL},
+		{"Invalid URL", []string{"http://example.com"}, defaultRabbitURL},
+		{"No URLs", []string{}, defaultRabbitURL},
 	}
 
 	for _, test := range testcases {
-		conn := newRabbitMQConn("exchange", test.urls)
+		conn := newRabbitConnection(rmqExchange{Name: "exchange", Durable: false}, test.urls)
 
 		if have, want := conn.url, test.want; have != want {
 			t.Errorf("%s: invalid url, want %q, have %q", test.title, want, have)
@@ -63,8 +63,11 @@ func TestTryToConnectTLS(t *testing.T) {
 	for _, test := range testcases {
 		dialCount, dialTLSCount = 0, 0
 
-		conn := newRabbitMQConn("exchange", []string{test.url})
-		conn.tryConnect(test.secure, test.tlsConfig)
+		conn := newRabbitConnection(rmqExchange{Name: "exchange", Durable: false}, []string{test.url})
+		err := conn.tryConnect(test.secure, test.tlsConfig)
+		if err != nil {
+			t.Fatal(err)
+		}
 
 		have := dialCount
 		if test.wantTLS {

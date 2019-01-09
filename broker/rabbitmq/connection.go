@@ -23,10 +23,10 @@ var (
 )
 
 type rmqConnection struct {
-	Connection      *amqp.Connection
-	Channel         *rmqChannel
-	exchange        rmqExchange
-	url             string
+	Connection *amqp.Connection
+	Channel    *rmqChannel
+	exchange   rmqExchange
+	url        string
 
 	sync.Mutex
 	connected bool
@@ -34,7 +34,7 @@ type rmqConnection struct {
 }
 
 type rmqExchange struct {
-	Name string
+	Name    string
 	Durable bool
 }
 

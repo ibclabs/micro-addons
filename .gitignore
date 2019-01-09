@@ -1,0 +1,10 @@
+# common
+.idea
+.DS_Store
+
+# Vendor path in Golang
+vendor
+
+# Tests
+test
+*.test
