@@ -3,6 +3,8 @@
 .DS_Store
 
 # Vendor path in Golang
+Gopkg.toml
+Gopkg.lock
 vendor
 
 # Tests
